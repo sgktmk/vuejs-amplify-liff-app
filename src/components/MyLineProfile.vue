@@ -62,7 +62,5 @@ export default defineComponent({
                 <li>link</li>
             </a>
         </ul>
-
-        <h2>hoge</h2>
     </div>
 </template>
