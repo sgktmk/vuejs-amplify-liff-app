@@ -13,17 +13,21 @@ type LiffState = {
 
 export default defineComponent({
   setup() {
+    /** State declarations */
     const liffState = reactive<LiffState>({
       profile: undefined
     });
-    const isFriend  = reactive({
+
+    const isFriend = reactive({
         flag: false
     });
 
-    const getProfile           = async () => {
+    /** Function declarations */
+    const getProfileState = async () => {
       const profile     = await liff.getProfile();
       liffState.profile = profile;
     };
+
     const getFriendRegisterUrl = async (liffId: string) => {
         console.log(liffId);
 
@@ -36,7 +40,7 @@ export default defineComponent({
     onMounted(async () => {
       // LIFFアプリの初期化
       await liff.init({ liffId: '2001486496-dQ3aQLV6' }); // TODO: 固定値になってるけど、公式アカウントごとに変える必要がある。どうする？
-      getProfile();
+      getProfileState();
 
       liff.getFriendship().then((data) => {
         isFriend.flag = data.friendFlag;
@@ -45,7 +49,8 @@ export default defineComponent({
       if (!isFriend.flag) {
         const liffId: string    = liff.id ?? '';
         const friendRegisterUrl = await getFriendRegisterUrl(liffId);
-        window.location.href    = friendRegisterUrl;
+
+        window.location.href = friendRegisterUrl;
       }
     });
 
