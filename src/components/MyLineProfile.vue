@@ -29,13 +29,9 @@ export default defineComponent({
       // LIFFアプリの初期化
       await liff.init({ liffId: '2001486496-dQ3aQLV6' });
       getProfile();
+
       liff.getFriendship().then((data) => {
-        if (data.friendFlag) {
-          console.log('ともだち！');
-          isFriend.flag = true;
-        } else {
-          console.log('ともだちじゃない');
-        }
+        isFriend.flag = data.friendFlag;
       });
 
       if (!isFriend.flag) {
