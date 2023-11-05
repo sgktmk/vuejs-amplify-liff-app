@@ -16,18 +16,26 @@ export default defineComponent({
     const liffState = reactive<LiffState>({
       profile: undefined
     });
-    const isFriend = reactive({
+    const isFriend  = reactive({
         flag: false
     });
 
-    const getProfile = async () => {
-      const profile = await liff.getProfile();
+    const getProfile           = async () => {
+      const profile     = await liff.getProfile();
       liffState.profile = profile;
+    };
+    const getFriendRegisterUrl = async (liffId: string) => {
+        console.log(liffId);
+
+        // TODO: LIFF ID から LINE 公式アカウント追加 URL を算出する API を叩く
+
+        // まだ API がないので固定の URL を返却
+        return 'https://lin.ee/rbZnolD';
     };
 
     onMounted(async () => {
       // LIFFアプリの初期化
-      await liff.init({ liffId: '2001486496-dQ3aQLV6' });
+      await liff.init({ liffId: '2001486496-dQ3aQLV6' }); // TODO: 固定値になってるけど、公式アカウントごとに変える必要がある。どうする？
       getProfile();
 
       liff.getFriendship().then((data) => {
@@ -35,7 +43,9 @@ export default defineComponent({
       });
 
       if (!isFriend.flag) {
-        window.location.href = 'https://lin.ee/rbZnolD';
+        const liffId: string    = liff.id ?? '';
+        const friendRegisterUrl = await getFriendRegisterUrl(liffId);
+        window.location.href    = friendRegisterUrl;
       }
     });
 
