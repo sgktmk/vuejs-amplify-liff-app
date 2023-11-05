@@ -14,6 +14,7 @@ type LiffState = {
 export default defineComponent({
   setup() {
     /** State declarations */
+
     const liffState = reactive<LiffState>({
       profile: undefined
     });
@@ -23,11 +24,21 @@ export default defineComponent({
     });
 
     /** Function declarations */
+
+    /**
+     * Get user's profile from liff and update this own state.
+     */
     const getProfileState = async () => {
       const profile     = await liff.getProfile();
       liffState.profile = profile;
     };
 
+    /**
+     * Get URL for friend registration with user and official account.
+     * 
+     * @param liffId LIFF ID
+     * @return URL for friend registration (eg: https://lin.ee/hogehoge)
+     */
     const getFriendRegisterUrl = async (liffId: string) => {
         console.log(liffId);
 
@@ -36,6 +47,13 @@ export default defineComponent({
         // まだ API がないので固定の URL を返却
         return 'https://lin.ee/rbZnolD';
     };
+
+    /**
+     * Write data to a table for inflow route analysis 
+     */
+    const writeToInflowRouteDB = () => {
+        // Do something
+    }
 
     onMounted(async () => {
       // LIFFアプリの初期化
@@ -49,6 +67,9 @@ export default defineComponent({
       if (!isFriend.flag) {
         const liffId: string    = liff.id ?? '';
         const friendRegisterUrl = await getFriendRegisterUrl(liffId);
+
+        // 流入経路分析用データベースに書き込み
+        writeToInflowRouteDB();
 
         window.location.href = friendRegisterUrl;
       }
