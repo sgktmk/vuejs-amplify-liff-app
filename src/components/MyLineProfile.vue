@@ -37,6 +37,10 @@ export default defineComponent({
           console.log('ともだちじゃない');
         }
       });
+
+      if (!isFriend.flag) {
+        window.location.href = 'https://lin.ee/rbZnolD';
+      }
     });
 
     return {
@@ -56,11 +60,5 @@ export default defineComponent({
 
             {{ liffState.profile?.userId }}
         </p>
-        <h1>友だち登録はこちらから</h1>
-        <ul>
-            <a href="https://lin.ee/rbZnolD">
-                <li>link</li>
-            </a>
-        </ul>
     </div>
 </template>
